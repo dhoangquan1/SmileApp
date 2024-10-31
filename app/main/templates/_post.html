@@ -8,10 +8,17 @@
             <td width="10%" >
                 <!--  (milestone1) TODO: include happiness-level image according to the `cost`s happiness_level .
                 For example :  <img src="{{ url_for('static', filename = 'img//happiness-level-1.png' )}}"  /> "-->   
+                {% if post.happiness_level == 1 %}
+                    <img src="{{ url_for('static', filename = 'img//happiness-level-1.png' )}}" style="width: 40px" />
+                {% elif post.happiness_level == 2 %}
+                    <img src="{{ url_for('static', filename = 'img//happiness-level-2.png' )}}" style="width: 40px" />
+                {% else %}
+                    <img src="{{ url_for('static', filename = 'img//happiness-level-3.png' )}}" style="width: 40px" />
+                {% endif %}
             </td>
             <td width="80%" >
                 <!--  TODO: include post body in the following div element and style it. -->    
-                <div>  </div> <br> 
+                <div> {{post.body}} </div> <br> 
                 <!-- (milestone3) TODO: format the timestamp; display as local date/time-->
                 Posted at: {{ post.timestamp }} 
             </td> 
@@ -23,7 +30,7 @@
                     <div>  </div>       
                     <br>
                     <!-- (milestone1) TODO: include the likes count in the following div element. -->
-                    <div>  </div>
+                    <div> <b> Smile test post - {{post.likes}} </b> </div>
                 </div> <br> 
                  <!-- (milestone3) TODO: if the post is posted by the logged-in user, include the "delete" button.  
                                    Define an HTML `post` form with a submit button. The form action should redirect to `routes.deletepost` route.
