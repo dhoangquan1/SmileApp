@@ -39,6 +39,28 @@ a:hover {
     text-align: center;    
     font-size: 18px;
     font-weight: bold;
+    font-family: Tahoma;
+    padding-bottom: 10px;
+}
+
+.postmessage {
+    text-align: left;    
+    font-size: 16px;
+    font-family: Tahoma;
+}
+
+.posttimestamp {
+    text-align: left;    
+    font-size: 16px;
+    font-family: Tahoma;
+}
+
+.likecount {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Tahoma;
+
 }
 
 .useritem{
@@ -65,4 +87,44 @@ a:hover {
 .likebtn:hover {
     background-image: url("..//img//like_hover.png");
     cursor:pointer;
+}
+
+.flash-container {
+    background-color: lightskyblue;
+    font-size: 16px;
+    padding: 25px;
+    margin: 10px 15px 10px 0px;
+    border-radius: 10px;
+
+}
+
+.formtitle {
+    width: 80%;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.formbody {
+    width: 80%;
+    height: 50px;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.formselect {
+    width: 80%;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
 }

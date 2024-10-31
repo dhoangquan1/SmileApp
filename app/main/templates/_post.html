@@ -18,9 +18,9 @@
             </td>
             <td width="80%" >
                 <!--  TODO: include post body in the following div element and style it. -->    
-                <div> {{post.body}} </div> <br> 
+                <div class="postmessage"> {{post.body}} </div> <br> 
                 <!-- (milestone3) TODO: format the timestamp; display as local date/time-->
-                Posted at: {{ post.timestamp }} 
+                <div class="posttimestamp"> Posted at: {{ post.timestamp }} </div>
             </td> 
             <td width = "5%">
                 <div>
@@ -30,7 +30,7 @@
                     <div>  </div>       
                     <br>
                     <!-- (milestone1) TODO: include the likes count in the following div element. -->
-                    <div> <b> Smile test post - {{post.likes}} </b> </div>
+                    <div class="likecount"> {{post.likes}} </div>
                 </div> <br> 
                  <!-- (milestone3) TODO: if the post is posted by the logged-in user, include the "delete" button.  
                                    Define an HTML `post` form with a submit button. The form action should redirect to `routes.deletepost` route.
