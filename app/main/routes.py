@@ -27,3 +27,16 @@ def postsmile():
         flash('Post "{}" is created!'.format(new_post.title))
         return redirect(url_for('main.index'))
     return render_template('create.html', form = pform)
+
+@bp_main.route('/post/<post_id>/like', methods=['POST'])
+def like(post_id):
+    thepost = db.session.get(Post, post_id)
+    if thepost is None:
+        flash('Post with id {} is not found!'.format(post_id))
+        return redirect(url_for('main.index'))
+    thepost.likes += 1
+    db.session.add(thepost)
+    db.session.commit()
+    return redirect(url_for('main.index'))
+    
+    
