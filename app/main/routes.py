@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for
 import sqlalchemy as sqla
 
 from app import db
-from app.main.models import Post
+from app.main.models import Post, Tag, postTags
 from app.main.forms import PostForm
 
 from app.main import main_blueprint as bp_main
