@@ -24,6 +24,8 @@ def postsmile():
                         body = pform.body.data,
                         happiness_level = pform.happiness_level.data,)
         db.session.add(new_post)
+        for t in pform.tag.data:
+            new_post.tags.add(t)
         db.session.commit()
         flash('Post "{}" is created!'.format(new_post.title))
         return redirect(url_for('main.index'))
