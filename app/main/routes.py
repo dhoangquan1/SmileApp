@@ -4,17 +4,31 @@ import sqlalchemy as sqla
 
 from app import db
 from app.main.models import Post, Tag, postTags
-from app.main.forms import PostForm
+from app.main.forms import PostForm, SortForm
 
 from app.main import main_blueprint as bp_main
 
 @bp_main.route('/', methods=['GET'])
-@bp_main.route('/index', methods=['GET'])
+@bp_main.route('/index', methods=['GET', 'POST'])
 def index():
-    posts = db.session.scalars(sqla.select(Post).order_by(Post.timestamp.desc()))
-    all_posts  = posts.all() 
-    postCount = db.session.query(Post).count()
-    return render_template('index.html', title="Smile Portal", posts=all_posts, postCount=postCount)
+    sform = SortForm()
+    query = sqla.select(Post).order_by(Post.timestamp.desc())
+
+    if sform.validate_on_submit():
+        if sform.choice.data == 'Date':
+            query = sqla.select(Post).order_by(Post.timestamp.desc())
+        elif sform.choice.data == 'Title':
+            query = sqla.select(Post).order_by(Post.title)
+        elif sform.choice.data == '# of likes':
+            query = sqla.select(Post).order_by(Post.likes.desc())
+        elif sform.choice.data == 'Happiness level':
+            query = sqla.select(Post).order_by(Post.happiness_level.desc())
+    
+    all_posts  = db.session.scalars(query).all()
+    postCount = db.session.query(Post).count() 
+        
+    return render_template('index.html', title="Smile Portal", posts=all_posts, postCount=postCount, sform=sform)
+    
 
 @bp_main.route('/post', methods=['GET', 'POST'])
 def postsmile():

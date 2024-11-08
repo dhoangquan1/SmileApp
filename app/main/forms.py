@@ -18,3 +18,7 @@ class PostForm(FlaskForm):
                                    widget=ListWidget(prefix_label=False),
                                    option_widget=CheckboxInput())
     submit = SubmitField('Post')
+    
+class SortForm(FlaskForm):
+    choice = SelectField('Sort By', choices=['Date', 'Title', '# of likes', 'Happiness level'])
+    submit = SubmitField('Refresh')
