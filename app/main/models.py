@@ -54,7 +54,8 @@ class Post(db.Model):
     tags: sqlo.WriteOnlyMapped['Tag'] = sqlo.relationship(
         secondary=postTags,
         primaryjoin=(postTags.c.post_id == id),
-        back_populates="posts"
+        back_populates="posts",
+        passive_deletes=True,
     )
     
     def get_tags(self):

@@ -67,4 +67,17 @@ def like(post_id):
     db.session.commit()
     return redirect(url_for('main.index'))
     
-    
+@bp_main.route('/post/<post_id>/delete', methods=['POST'])
+@login_required
+def delete(post_id):
+    thepost = db.session.get(Post, post_id)
+    if thepost is None:
+        flash('Post with id {} is not found!'.format(post_id))
+        return redirect(url_for('main.index'))
+    for t in db.session.scalars(thepost.tags.select()):
+        thepost.tags.remove(t)
+    db.session.commit()
+    db.session.delete(thepost)
+    db.session.commit()
+    flash('Post "{}" is successfully deleted!'.format(thepost.title))
+    return redirect(url_for('main.index'))
