@@ -17,10 +17,13 @@
                 <!-- TODO: (milestone 1) add the URL for the "Post Smile". --> 
                 <td><a href="{{url_for('main.postsmile')}}" class = "button"> Post Smile </a></td>
                 <!-- TODO: (milestone 3) add the "Login" or "Logous" link. If the user is logged in, Login link should be displayed, otherwise Logout link should be displayed. --> 
-                <td><a href="" class = "button"> Login </a></td>
-                <td><a href="" class = "button"> Logout </a></td>
-                <!-- TODO: (milestone 3) Replace "_______" below with the username of the current user. Current user should be displayed only if there is a logged in user. -->
-                <td> Current user is: <span class="useritem">_______</span> </td>
+                {% if current_user.is_anonymous %}
+                    <td><a href="{{url_for('auth.login')}}" class = "button"> Login </a></td>
+                {% else %}
+                    <td><a href="{{url_for('auth.logout')}}" class = "button"> Logout </a></td>
+                    <!-- TODO: (milestone 3) Replace "_______" below with the username of the current user. Current user should be displayed only if there is a logged in user. -->
+                    <td> Current user is: <span class="useritem">{{current_user.username}}</span> </td>
+                {% endif %}
             </tr>
         </table>
         </div>

@@ -2,8 +2,9 @@ from flask import Flask
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-# TODO: (milestone 3) import LoginManager and Moment extensions here
 
+# TODO: (milestone 3) import LoginManager and Moment extensions here
+from flask_login import LoginManager
 
 
 db = SQLAlchemy()
@@ -11,7 +12,8 @@ db = SQLAlchemy()
 migrate = Migrate()
 # TODO: (milestone 3) create LoginManager object and configure the login view as 'auth.login', i.e, `login` route in `auth` Blueprint. 
 # TODO: (milestone 3) create Moment object
-
+login = LoginManager()
+login.login_view = 'auth.login'
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -23,6 +25,7 @@ def create_app(config_class=Config):
     migrate.init_app(app,db)
     # TODO: (milestone 3) Configure the app object for login using `init_app` function. 
     # TODO: (milestone 3) Configure the app object for moment using `init_app` function. 
+    login.init_app(app)
 
     # blueprint registration
     from app.main import main_blueprint as main

@@ -1,10 +1,15 @@
 from datetime import datetime, timezone
 from typing import Optional
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-from app import db
+from app import db, login
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqlo
+
+@login.user_loader
+def load_user(id):
+    return db.session.get(User, int(id))
 
 postTags = db.Table(
     'postTags',
@@ -43,7 +48,7 @@ class Tag(db.Model):
     def __repr__(self):
         return '<Id {} : {} >'.format(self.id,self.name)
     
-class User(db.Model):
+class User(UserMixin, db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
     username: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64), unique=True)
     email: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(120), unique=True)
