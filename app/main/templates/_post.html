@@ -28,9 +28,7 @@
                         Define an HTML `post` form with a submit button. The form action should redirect to `routes.like` route.
                         Style the submit button using `likebtn` CCS class selector. -->
                     <div> 
-                        <form action="{{url_for('main.like', post_id = post.id)}}" method="post">
-                            <input class="likebtn" type="submit" value="">
-                        </form>   
+                        <button class="likebtn" onclick="like_post({{post.id}})" />
                     </div>       
                     <br>
                     <!-- (milestone1) TODO: include the likes count in the following div element. -->
@@ -67,6 +65,25 @@
 <!-- (milestone3)  TODO: refactor the "like" use case. Add the JavaScript code below. -->
 {% block script %}
 <script>
+    async function like_post(post_id){
+        const url = "{{ url_for('main.like', post_id = 'post_id') }}".replace("post_id", post_id);
+        try{
+            const response = await fetch(url);
+            if(!response.ok) {
+                throw new Error('Reponse status: ${response.status}');
+            }
+            const json = await response.json();
+            console.log(json);
+            update_likes(post_id, json);
+        }catch(error){
+            console.error(error.message)
+        }
+    }
 
+    function update_likes(post_id, data){
+        let parent_div = document.getElementById(`post-${post_id}`)
+        let child_div = parent_div.querySelector(".likecount")
+        child_div.textContent = `${data[`like_count`]}`
+    }
 </script>    
 {% endblock %}

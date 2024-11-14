@@ -1,5 +1,5 @@
 import sys
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 import sqlalchemy as sqla
 
@@ -55,7 +55,7 @@ def postsmile():
         return redirect(url_for('main.index'))
     return render_template('create.html', form = pform)
 
-@bp_main.route('/post/<post_id>/like', methods=['POST'])
+@bp_main.route('/post/<post_id>/like', methods=['GET', 'POST'])
 @login_required
 def like(post_id):
     thepost = db.session.get(Post, post_id)
@@ -65,7 +65,11 @@ def like(post_id):
     thepost.likes += 1
     db.session.add(thepost)
     db.session.commit()
-    return redirect(url_for('main.index'))
+    
+    updatedpost = db.session.get(Post, post_id)
+    data = {'post_id': updatedpost.id,
+            'like_count': updatedpost.likes}
+    return jsonify(data)
     
 @bp_main.route('/post/<post_id>/delete', methods=['POST'])
 @login_required
