@@ -12,7 +12,6 @@ def make_shell_context():
     return {'sqla': sqla, 'sqlo': sqlo, 'db': db, 'Post': Post, 'Tag' : Tag, 'User' : User}
 
 
-@sqla.event.listens_for(Tag.__table__, 'after_create')
 def add_tags(*args, **kwargs):
     query = sqla.select(Tag)
     if db.session.scalars(query).first() is None:
@@ -29,6 +28,7 @@ def add_tags(*args, **kwargs):
 def initDB(*args, **kwargs):
     if app._got_first_request:
         db.create_all()
+        add_tags()
 
 if __name__ == "__main__":
     app.run(debug=True)
