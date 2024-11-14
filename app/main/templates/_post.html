@@ -1,13 +1,9 @@
 <!-- We add an id for the table to update the HTML content of the table through JavaScript.  -->
-<table id="post-{{post.id}}" class = "posttable" style = "width:100%" valign="top">
-        <tr> 
-            <td colspan="3"><div class="posttitle"> {{post.title}} </div>
-            </td>
-        </tr>
-        <tr>
-            <td width="10%" >
-                <!--  (milestone1) TODO: include happiness-level image according to the `cost`s happiness_level .
-                For example :  <img src="{{ url_for('static', filename = 'img//happiness-level-1.png' )}}"  /> "-->   
+<div id="post-{{post.id}}" class = "card w-100" style = "width:100" valign="top">
+    <h5 class="class-title text-center"> {{post.title}} </h5>
+    <div class="container">
+        <div class="row d-flex justify-content-between">
+            <div class="col-1">
                 {% if post.happiness_level == 1 %}
                     <img src="{{ url_for('static', filename = 'img//happiness-level-1.png' )}}" style="width: 40px" />
                 {% elif post.happiness_level == 2 %}
@@ -15,52 +11,45 @@
                 {% else %}
                     <img src="{{ url_for('static', filename = 'img//happiness-level-3.png' )}}" style="width: 40px" />
                 {% endif %}
-            </td>
-            <td width="80%" >
-                <!--  TODO: include post body in the following div element and style it. -->    
-                <div class="postmessage"> {{post.body}} </div> <br> 
-                <!-- (milestone3) TODO: format the timestamp; display as local date/time-->
-                <div class="posttimestamp"> Posted at: {{ moment(post.timestamp).format('LLL') }} </div>
-            </td> 
-            <td width = "5%">
+            </div>
+            
+            <div class="col-8 text-start" >
+                <p class="card-text postmessage"> {{post.body}} </p>
+            </div>
+            
+            <div class="col-2 d-flex flex-column align-items-center" >
                 <div>
-                    <!-- (milestone1)  TODO: add "like" button
-                        Define an HTML `post` form with a submit button. The form action should redirect to `routes.like` route.
-                        Style the submit button using `likebtn` CCS class selector. -->
-                    <div> 
-                        <button class="likebtn" onclick="like_post({{post.id}})" />
-                    </div>       
-                    <br>
-                    <!-- (milestone1) TODO: include the likes count in the following div element. -->
-                    <div class="likecount"> {{post.likes}} </div>
-                </div> <br> 
-                 <!-- (milestone3) TODO: if the post is posted by the logged-in user, include the "delete" button.  
-                                   Define an HTML `post` form with a submit button. The form action should redirect to `routes.deletepost` route.
-                                   Style the submit button using `button` CCS class selector. -->
+                    <button class="likebtn" onclick="like_post({{post.id}})" />
+                </div>
+                <div class="likecount"> {{post.likes}} </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="align-self-center" colspan="3" style = "text-align:center" valign="bottom">
+        {% for t in post.get_tags() %}
+            <span class="tagitem">{{t.name}}</span>
+        {% endfor %}
+    </div>
+
+    <br>
+    <div class="mt-auto bg-light p-2">
+        <div class="row">
+            <div class="col-9">
+                Posted at: {{ moment(post.timestamp).format('LLL') }} <br>
+                Posted by: <span class="useritem"> {{post.writer.username}} </span>
+            </div>
+
+            <div class="col-2">
                 {% if post.writer.username == current_user.username %}
                     <form action="{{url_for('main.delete', post_id = post.id)}}" method="post">
-                        <input type="submit" value="Delete" class="button" >
+                        <input type="submit" value="Delete" class="btn btn-outline-danger" >
                     </form>
                 {% endif %}
-            </td>
-        </tr>
-        <tr> 
-            <td colspan="3" style = "text-align:center" valign="bottom">  
-                <br>
-                <!-- (milestone2) TODO: include all the tags associated with the post-->
-                {% for t in post.get_tags() %}
-                    <span class="tagitem">{{t.name}}</span>
-                {% endfor %}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" style = "text-align:center" valign="bottom">  
-                <br>
-                  <!-- (milestone3) TODO: include username who posted the post-->
-                  Posted by: <span class="useritem"> {{post.writer.username}} </span>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- (milestone3)  TODO: refactor the "like" use case. Add the JavaScript code below. -->
 {% block script %}
