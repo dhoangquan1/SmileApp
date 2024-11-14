@@ -17,7 +17,7 @@ def register():
     if rform.validate_on_submit():
         new_user = User(username = rform.username.data,
                         email = rform.email.data)
-        new_user.set_password(rform.password1.data)
+        new_user.set_password(rform.password.data)
         db.session.add(new_user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
@@ -33,7 +33,7 @@ def login():
         query = sqla.select(User).where(User.username == lform.username.data)
         user = db.session.scalars(query).first()
         if (user is None) or (user.check_password(lform.password.data) == False):
-            flash('The user does not exists or you entered the wrong password')
+            flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         login_user(user, remember=lform.remember_me.data)
         flash('The user {} has successfully logged in!'.format(current_user.username))
@@ -44,4 +44,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('main.index'))
