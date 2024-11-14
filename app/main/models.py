@@ -18,6 +18,26 @@ postTags = db.Table(
     sqla.Column('tag_id', sqla.Integer, sqla.ForeignKey('tag.id'), primary_key=True)
 )
 
+class User(UserMixin, db.Model):
+    id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
+    username: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64), unique=True)
+    email: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(120), unique=True)
+    password_hash: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(256))
+
+    posts: sqlo.WriteOnlyMapped['Post'] = sqlo.relationship(back_populates= 'writer')
+
+    def __repr__(self):
+        return '<Id {} : {} >'.format(self.id,self.username)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+        
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    def get_user_posts(self):
+        return db.session.scalars(self.posts.select()).all()
+
 class Post(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
     title : sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(150))
@@ -25,7 +45,9 @@ class Post(db.Model):
     timestamp : sqlo.Mapped[Optional[datetime]] = sqlo.mapped_column(default = lambda : datetime.now(timezone.utc)) 
     likes : sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default = 0)
     happiness_level : sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default = 3)
+    user_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(User.id), index=True)
     
+    writer : sqlo.Mapped[User] = sqlo.relationship(back_populates= 'posts')
     tags: sqlo.WriteOnlyMapped['Tag'] = sqlo.relationship(
         secondary=postTags,
         primaryjoin=(postTags.c.post_id == id),
@@ -48,17 +70,3 @@ class Tag(db.Model):
     def __repr__(self):
         return '<Id {} : {} >'.format(self.id,self.name)
     
-class User(UserMixin, db.Model):
-    id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
-    username: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64), unique=True)
-    email: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(120), unique=True)
-    password_hash: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(256))
-
-    def __repr__(self):
-        return '<Id {} : {} >'.format(self.id,self.username)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-        
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)

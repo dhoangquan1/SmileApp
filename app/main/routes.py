@@ -39,7 +39,8 @@ def postsmile():
     if pform.validate_on_submit():
         new_post = Post(title = pform.title.data,
                         body = pform.body.data,
-                        happiness_level = pform.happiness_level.data,)
+                        happiness_level = pform.happiness_level.data,
+                        user_id = current_user.id)
         db.session.add(new_post)
         for t in pform.tag.data:
             new_post.tags.add(t)
