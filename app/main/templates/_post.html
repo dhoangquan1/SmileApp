@@ -20,7 +20,7 @@
                 <!--  TODO: include post body in the following div element and style it. -->    
                 <div class="postmessage"> {{post.body}} </div> <br> 
                 <!-- (milestone3) TODO: format the timestamp; display as local date/time-->
-                <div class="posttimestamp"> Posted at: {{ post.timestamp }} </div>
+                <div class="posttimestamp"> Posted at: {{ moment(post.timestamp).format('LLL') }} </div>
             </td> 
             <td width = "5%">
                 <div>
