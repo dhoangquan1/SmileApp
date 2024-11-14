@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, TextAreaField
+from wtforms import StringField, SubmitField, SelectField, TextAreaField, BooleanField
 from wtforms.validators import  ValidationError, DataRequired, Length
 from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 from wtforms.widgets import ListWidget, CheckboxInput
@@ -21,4 +21,5 @@ class PostForm(FlaskForm):
     
 class SortForm(FlaskForm):
     choice = SelectField('Sort By', choices=['Date', 'Title', '# of likes', 'Happiness level'])
+    mypost = BooleanField('Display my posts only')
     submit = SubmitField('Refresh')

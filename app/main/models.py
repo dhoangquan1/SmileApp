@@ -37,6 +37,9 @@ class User(UserMixin, db.Model):
     
     def get_user_posts(self):
         return db.session.scalars(self.posts.select()).all()
+    
+    def get_posts_data(self):
+        return self.posts.select()
 
 class Post(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)

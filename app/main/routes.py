@@ -14,17 +14,23 @@ from app.main import main_blueprint as bp_main
 @login_required
 def index():
     sform = SortForm()
-    query = sqla.select(Post).order_by(Post.timestamp.desc())
+    data = sqla.select(Post)
+    query = data.order_by(Post.timestamp.desc())
 
     if sform.validate_on_submit():
+        if sform.mypost.data:
+            data = current_user.get_posts_data()
+        else:
+            data = sqla.select(Post)
+            
         if sform.choice.data == 'Date':
-            query = sqla.select(Post).order_by(Post.timestamp.desc())
+            query = data.order_by(Post.timestamp.desc())
         elif sform.choice.data == 'Title':
-            query = sqla.select(Post).order_by(Post.title)
+            query = data.order_by(Post.title)
         elif sform.choice.data == '# of likes':
-            query = sqla.select(Post).order_by(Post.likes.desc())
+            query = data.order_by(Post.likes.desc())
         elif sform.choice.data == 'Happiness level':
-            query = sqla.select(Post).order_by(Post.happiness_level.desc())
+            query = data.order_by(Post.happiness_level.desc())
     
     all_posts  = db.session.scalars(query).all()
     postCount = db.session.query(Post).count() 
