@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from typing import Optional
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
 import sqlalchemy as sqla
@@ -41,3 +42,18 @@ class Tag(db.Model):
     
     def __repr__(self):
         return '<Id {} : {} >'.format(self.id,self.name)
+    
+class User(db.Model):
+    id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
+    username: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64), unique=True)
+    email: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(120), unique=True)
+    password_hash: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(256))
+
+    def __repr__(self):
+        return '<Id {} : {} >'.format(self.id,self.username)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+        
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
