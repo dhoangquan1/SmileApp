@@ -7,15 +7,15 @@ SMILE is a positive and uplifting forum where you can share anything, big or sma
 ------------------------
 ## ⚙️ Technologies Used
 -----------------------
-[![My Skills](https://skillicons.dev/icons?i=js,html,css,flask,aws,docker,selenium)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=js,html,css,flask,aws,docker,selenium,postgres)](https://skillicons.dev)
 
 ------------------------
 ## 🌟 Features
 -----------------------
-- Post a SMILE: Share what and how much something made you happy. Add a tag to show what your topic is about!
-- Like a Post: Engage with others by liking their posts.
-- Sort and Filer: Check out what is the most liked post in the forum.
-- Authentication: Register an account to join the forum.
+- **Post a SMILE**: Share what and how much something made you happy. Add a tag to show what your topic is about!
+- **Like a Post**: Engage with others by liking their posts.
+- **Sort and Filter**: Check out what is the most liked post in the forum.
+- **Authentication**: Register an account to join the forum.
 
 ------------------------
 ## 🚀 Getting Started
