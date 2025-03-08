@@ -1,12 +1,6 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Fvxb6Q3O)
-
-AWS Deployment link: [AWS Link](http://ec2-3-141-4-236.us-east-2.compute.amazonaws.com/user/login?next=%2Findex)
-
-
-Smile App Starter Code - includes tests
+SMILE Application
 
 Name: Quan Hoang Dinh
-Major: Computer Science
 
 Requirements.txt is updated on July 2024
 
