@@ -1,17 +1,49 @@
 {% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
 
-    <h1>Welcome to Smile Portal!</h1>
-    <!-- TODO: (milestone1) Display smile count.   -->
-    <h3>Number of smiles:  </h3>
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Welcome to Smile Portal!</h1>
+            <!-- TODO: (milestone1) Display smile count.   -->
+            <h4>Number of smiles: {{postCount}} </h4>
+        </div>
 
-    <!-- TODO: (milestone 2) Add the template to render an instance of a `sortForm`. The form should display the sort attribute select box and the "Refresh" submit button.
-            Style the `sortorder` form element using the `formselect` CSS element we defined in milestone1 -->
+        <div>
+            <!-- TODO: (milestone 2) Add the template to render an instance of a `sortForm`. The form should display the sort attribute select box and the "Refresh" submit button.
+                Style the `sortorder` form element using the `formselect` CSS element we defined in milestone1 -->
+            <form action="{{url_for('main.index')}}" method="post">
+                {{sform.hidden_tag()}}
+
+                <div class="form-check form-switch">
+                    {{ sform.mypost(class="form-check-input", type="checkbox",role="switch",id="flexSwitchCheckDefault")}}
+                    {{ sform.mypost.label(class="form-check-label",for="flexSwitchCheckDefault")}}                    
+                </div>
+                <div class="form-group row align-items-center g-1">
+                    <div class="col-md-3 ">
+                        {{ sform.choice.label(class='col-form-label') }}
+                    </div>
+                    <div class="col-md-6 ">
+                        {{ sform.choice(class='form-select') }}
+                    </div>
+                    <div class="col-md-3 ">
+                        {{sform.submit(class = "btn btn-outline-primary")}}
+                    </div>
+                </div>
+                
+                
+            </form>
+        </div>
+    </div>
 
     <!-- TODO: (milestone1) Format posts -->
-    {% for post in posts %}
-        {% include '_post.html' %} 
-    {% endfor %}
+    <div class="postlist">
+        {% for post in posts %}
+            <div class="post-box">
+                {% include '_post.html' %} 
+            </div>
+        {% endfor %}
+    </div>
   
 {% endblock %}
